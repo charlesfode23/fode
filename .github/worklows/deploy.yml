@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t kingfo221/flask-redis:1.0 .
+
+    - name: Log into Docker Hub
+      run: docker login -u kingfo221 -p Ymgxe221@
+
+    - name: Push Docker image to Docker Hub
+      run: docker push kingfo221/flask-redis:1.0
+
+    - name: Deploy with Docker Compose
+      run: docker-compose up -d
